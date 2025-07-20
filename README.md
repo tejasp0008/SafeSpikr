@@ -80,7 +80,7 @@ SafeSpikr/
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/SafeSpikr.git
+   git clone https://github.com/tejasp0008/SafeSpikr.git
    cd SafeSpikr
    ```
 
