@@ -1,5 +1,7 @@
 verilog/build/
 venv/
 data/images/*
+!data/images/.gitkeep
 data/ppg_signals/*
+!data/ppg_signals/.gitkeep
 
