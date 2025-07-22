@@ -1,5 +1,5 @@
 verilog/build/
 venv/
-data/images/
-data/ppg_signals/
+data/images/*
+data/ppg_signals/*
 
