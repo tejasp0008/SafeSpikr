@@ -2,5 +2,16 @@ verilog/build/
 venv/
 Data/imgs/*
 !Data/imgs/.gitkeep
+Data_/imgs/*
+!Data/imgs/.gitkeep
+
+# Only keep the folder names for data_unified and ddd
+data_unified/*
+!data_unified/.gitkeep
+
+ddd/*
+!ddd/.gitkeep
+
+
 
 

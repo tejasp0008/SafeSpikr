@@ -1,0 +1,11 @@
+Test samples: 1248
+Accuracy: 0.8990
+
+Classification report:
+              precision    recall  f1-score      support
+alert          0.663102  1.000000  0.797428   248.000000
+drowsy         1.000000  1.000000  1.000000   500.000000
+distracted     1.000000  0.748000  0.855835   500.000000
+accuracy       0.899038  0.899038  0.899038     0.899038
+macro avg      0.887701  0.916000  0.884421  1248.000000
+weighted avg   0.933052  0.899038  0.901987  1248.000000

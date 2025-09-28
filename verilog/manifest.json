@@ -1,103 +1,94 @@
 {
-  "model_path": "C:\\Users\\TEJAS PAL\\Projects\\SafeSpikr\\snn_model_best.pth",
-  "q_format": {
-    "q_int": 1,
-    "q_frac": 15
+  "model_path": "outputs/unified_run1/snn_model_best.pth",
+  "csv_path": "Data_unified/labels.csv",
+  "split": "test",
+  "num_samples": 10,
+  "q_format": "Q1.15",
+  "weights_dir": "verilog\\weights",
+  "test_vectors_dir": "verilog\\test_vectors",
+  "weights": {
+    "img_enc.conv.0.weight": "verilog\\weights\\weights_img_enc_conv_0_weight.txt",
+    "img_enc.conv.0.bias": "verilog\\weights\\weights_img_enc_conv_0_bias.txt",
+    "img_enc.conv.3.weight": "verilog\\weights\\weights_img_enc_conv_3_weight.txt",
+    "img_enc.conv.3.bias": "verilog\\weights\\weights_img_enc_conv_3_bias.txt",
+    "ppg_enc.fc.0.weight": "verilog\\weights\\weights_ppg_enc_fc_0_weight.txt",
+    "ppg_enc.fc.0.bias": "verilog\\weights\\weights_ppg_enc_fc_0_bias.txt",
+    "fc.weight": "verilog\\weights\\weights_fc_weight.txt",
+    "fc.bias": "verilog\\weights\\weights_fc_bias.txt",
+    "out_fc.weight": "verilog\\weights\\weights_out_fc_weight.txt",
+    "out_fc.bias": "verilog\\weights\\weights_out_fc_bias.txt"
   },
-  "files": {
-    "weights::img_enc.conv.0.weight": {
-      "path": "weights\\weights_img_enc_conv_0_weight.txt",
-      "shape": [
-        16,
-        3,
-        3,
-        3
-      ],
-      "dtype": "int32_fixed"
+  "test_vectors": [
+    {
+      "idx": 0,
+      "img_file": "verilog\\test_vectors\\test_vector_img_0.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_0.txt",
+      "true_label": 2,
+      "pred_label": 2
     },
-    "weights::img_enc.conv.0.bias": {
-      "path": "weights\\weights_img_enc_conv_0_bias.txt",
-      "shape": [
-        16
-      ],
-      "dtype": "int32_fixed"
+    {
+      "idx": 1,
+      "img_file": "verilog\\test_vectors\\test_vector_img_1.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_1.txt",
+      "true_label": 1,
+      "pred_label": 1
     },
-    "weights::img_enc.conv.3.weight": {
-      "path": "weights\\weights_img_enc_conv_3_weight.txt",
-      "shape": [
-        32,
-        16,
-        3,
-        3
-      ],
-      "dtype": "int32_fixed"
+    {
+      "idx": 2,
+      "img_file": "verilog\\test_vectors\\test_vector_img_2.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_2.txt",
+      "true_label": 1,
+      "pred_label": 1
     },
-    "weights::img_enc.conv.3.bias": {
-      "path": "weights\\weights_img_enc_conv_3_bias.txt",
-      "shape": [
-        32
-      ],
-      "dtype": "int32_fixed"
+    {
+      "idx": 3,
+      "img_file": "verilog\\test_vectors\\test_vector_img_3.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_3.txt",
+      "true_label": 1,
+      "pred_label": 1
     },
-    "weights::ppg_enc.fc.0.weight": {
-      "path": "weights\\weights_ppg_enc_fc_0_weight.txt",
-      "shape": [
-        64,
-        100
-      ],
-      "dtype": "int32_fixed"
+    {
+      "idx": 4,
+      "img_file": "verilog\\test_vectors\\test_vector_img_4.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_4.txt",
+      "true_label": 0,
+      "pred_label": 0
     },
-    "weights::ppg_enc.fc.0.bias": {
-      "path": "weights\\weights_ppg_enc_fc_0_bias.txt",
-      "shape": [
-        64
-      ],
-      "dtype": "int32_fixed"
+    {
+      "idx": 5,
+      "img_file": "verilog\\test_vectors\\test_vector_img_5.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_5.txt",
+      "true_label": 0,
+      "pred_label": 0
     },
-    "weights::fc.weight": {
-      "path": "weights\\weights_fc_weight.txt",
-      "shape": [
-        128,
-        96
-      ],
-      "dtype": "int32_fixed"
+    {
+      "idx": 6,
+      "img_file": "verilog\\test_vectors\\test_vector_img_6.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_6.txt",
+      "true_label": 1,
+      "pred_label": 1
     },
-    "weights::fc.bias": {
-      "path": "weights\\weights_fc_bias.txt",
-      "shape": [
-        128
-      ],
-      "dtype": "int32_fixed"
+    {
+      "idx": 7,
+      "img_file": "verilog\\test_vectors\\test_vector_img_7.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_7.txt",
+      "true_label": 1,
+      "pred_label": 1
     },
-    "weights::out_fc.weight": {
-      "path": "weights\\weights_out_fc_weight.txt",
-      "shape": [
-        3,
-        128
-      ],
-      "dtype": "int32_fixed"
+    {
+      "idx": 8,
+      "img_file": "verilog\\test_vectors\\test_vector_img_8.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_8.txt",
+      "true_label": 2,
+      "pred_label": 0
     },
-    "weights::out_fc.bias": {
-      "path": "weights\\weights_out_fc_bias.txt",
-      "shape": [
-        3
-      ],
-      "dtype": "int32_fixed"
-    },
-    "sample::0": {
-      "meta": "samples\\sample_0_meta.json"
-    },
-    "sample::1": {
-      "meta": "samples\\sample_1_meta.json"
-    },
-    "sample::2": {
-      "meta": "samples\\sample_2_meta.json"
-    },
-    "sample::3": {
-      "meta": "samples\\sample_3_meta.json"
-    },
-    "sample::4": {
-      "meta": "samples\\sample_4_meta.json"
+    {
+      "idx": 9,
+      "img_file": "verilog\\test_vectors\\test_vector_img_9.txt",
+      "ppg_file": "verilog\\test_vectors\\test_vector_ppg_9.txt",
+      "true_label": 2,
+      "pred_label": 2
     }
-  }
+  ],
+  "golden_reference": "verilog\\test_vectors\\golden_reference.csv"
 }

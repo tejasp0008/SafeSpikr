@@ -1,140 +1,103 @@
 # model/snn_train.py
-import os
 import argparse
-import random
 import torch
+from torch.utils.data import DataLoader
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader, Subset, random_split
-from torch.utils.tensorboard import SummaryWriter
-from model.dataset_from_csv import StateFarmCSVDataset
-from model.snn_model_statefarm import SNNDriverStateClassifier
-import numpy as np
+import os
 
-# -----------------------
-# Config / hyperparams
-# -----------------------
-DEFAULTS = {
-    "batch_size": 32,
-    "epochs": 10,
-    "lr": 1e-3,
-    "max_items": None,     # limit dataset for quick runs (set None to use all)
-    "val_fraction": 0.15,
-    "output_dir": ".",
-    "seed": 42
-}
+from model.dataset_unified import UnifiedDataset
+from model.snn_model_statefarm import SNNDriverStateClassifier  # assuming you already have this
 
-def set_seed(seed):
-    random.seed(seed)
-    np.random.seed(seed)
-    torch.manual_seed(seed)
-    if torch.cuda.is_available():
-        torch.cuda.manual_seed_all(seed)
 
-def train_epoch(model, loader, criterion, optimizer, device):
+def train_one_epoch(model, loader, criterion, optimizer, device):
     model.train()
-    running_loss = 0.0
-    correct = 0
-    total = 0
+    running_loss, running_corrects, total = 0.0, 0, 0
     for imgs, ppgs, labels in loader:
-        imgs = imgs.to(device)
-        ppgs = ppgs.to(device)
-        labels = labels.to(device)
-
+        imgs, ppgs, labels = imgs.to(device), ppgs.to(device), labels.to(device)
         optimizer.zero_grad()
-        logits, _ = model(imgs, ppgs)
-        loss = criterion(logits, labels)
+        outputs = model(imgs, ppgs)
+        if isinstance(outputs, tuple):
+            outputs = outputs[0]
+    
+        loss = criterion(outputs, labels)
         loss.backward()
         optimizer.step()
 
+        _, preds = torch.max(outputs, 1)
         running_loss += loss.item() * imgs.size(0)
-        preds = logits.argmax(1)
-        correct += (preds == labels).sum().item()
-        total += imgs.size(0)
+        running_corrects += torch.sum(preds == labels).item()
+        total += labels.size(0)
 
-    return running_loss / total, correct / total
+    epoch_loss = running_loss / total
+    epoch_acc = running_corrects / total
+    return epoch_loss, epoch_acc
 
-def eval_epoch(model, loader, criterion, device):
+def eval_model(model, loader, criterion, device):
     model.eval()
-    running_loss = 0.0
-    correct = 0
-    total = 0
+    running_loss, running_corrects, total = 0.0, 0, 0
     with torch.no_grad():
         for imgs, ppgs, labels in loader:
-            imgs = imgs.to(device)
-            ppgs = ppgs.to(device)
-            labels = labels.to(device)
-            logits, _ = model(imgs, ppgs)
-            loss = criterion(logits, labels)
+            imgs, ppgs, labels = imgs.to(device), ppgs.to(device), labels.to(device)
+            outputs = model(imgs, ppgs)
+            if isinstance(outputs, tuple):
+                outputs = outputs[0]
+   
+            loss = criterion(outputs, labels)
+
+            _, preds = torch.max(outputs, 1)
             running_loss += loss.item() * imgs.size(0)
-            preds = logits.argmax(1)
-            correct += (preds == labels).sum().item()
-            total += imgs.size(0)
-    return running_loss / total, correct / total
+            running_corrects += torch.sum(preds == labels).item()
+            total += labels.size(0)
 
-def main(args):
-    set_seed(args.seed)
+    epoch_loss = running_loss / total
+    epoch_acc = running_corrects / total
+    return epoch_loss, epoch_acc
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--csv_path", type=str, default="Data_unified/labels.csv",
+                        help="Path to labels.csv from unified dataset")
+    parser.add_argument("--batch_size", type=int, default=32)
+    parser.add_argument("--epochs", type=int, default=20)
+    parser.add_argument("--lr", type=float, default=1e-3)
+    parser.add_argument("--max_items", type=int, default=None)
+    parser.add_argument("--val_fraction", type=float, default=0.1)
+    parser.add_argument("--output_dir", type=str, default="outputs/run1")
+    parser.add_argument("--seed", type=int, default=42)
+    args = parser.parse_args()
+
+    os.makedirs(args.output_dir, exist_ok=True)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print("Using device:", device)
 
-    # dataset
-    ds = StateFarmCSVDataset(max_items=args.max_items)
-    N = len(ds)
-    if N == 0:
-        raise RuntimeError("Dataset is empty. Check CSV path and image layout.")
-    n_val = max(1, int(args.val_fraction * N))
-    n_train = N - n_val
-    train_ds, val_ds = random_split(ds, [n_train, n_val])
-    print(f"Dataset size: {N}  Train: {n_train}  Val: {n_val}")
+    # datasets
+    train_ds = UnifiedDataset(csv_path=args.csv_path, split="train", max_items=args.max_items)
+    val_ds = UnifiedDataset(csv_path=args.csv_path, split="val", max_items=args.max_items)
 
-    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True, num_workers=4, pin_memory=True)
-    val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False, num_workers=2, pin_memory=True)
+    train_loader = DataLoader(train_ds, batch_size=args.batch_size, shuffle=True, num_workers=2)
+    val_loader = DataLoader(val_ds, batch_size=args.batch_size, shuffle=False, num_workers=2)
 
-    # model, loss, optimizer
-    model = SNNDriverStateClassifier().to(device)
+    # model
+    model = SNNDriverStateClassifier()
+    model.to(device)
+
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
-    # logging & checkpoints
-    os.makedirs(args.output_dir, exist_ok=True)
-    writer = SummaryWriter(log_dir=os.path.join(args.output_dir, "tb_logs"))
-    best_val_acc = 0.0
-    best_epoch = -1
+    best_acc = 0.0
+    for epoch in range(args.epochs):
+        tr_loss, tr_acc = train_one_epoch(model, train_loader, criterion, optimizer, device)
+        val_loss, val_acc = eval_model(model, val_loader, criterion, device)
 
-    for epoch in range(1, args.epochs + 1):
-        train_loss, train_acc = train_epoch(model, train_loader, criterion, optimizer, device)
-        val_loss, val_acc = eval_epoch(model, val_loader, criterion, device)
-        print(f"Epoch {epoch}/{args.epochs} - train_loss: {train_loss:.4f}, train_acc: {train_acc:.4f} | val_loss: {val_loss:.4f}, val_acc: {val_acc:.4f}")
+        print(f"Epoch {epoch+1}/{args.epochs} - "
+              f"Train loss {tr_loss:.4f} acc {tr_acc:.4f} | "
+              f"Val loss {val_loss:.4f} acc {val_acc:.4f}")
 
-        # TensorBoard scalars
-        writer.add_scalar("loss/train", train_loss, epoch)
-        writer.add_scalar("loss/val", val_loss, epoch)
-        writer.add_scalar("acc/train", train_acc, epoch)
-        writer.add_scalar("acc/val", val_acc, epoch)
-
-        # checkpoint last
-        last_path = os.path.join(args.output_dir, "snn_model_last.pth")
-        torch.save(model.state_dict(), last_path)
-
-        # save best
-        if val_acc > best_val_acc:
-            best_val_acc = val_acc
-            best_epoch = epoch
-            best_path = os.path.join(args.output_dir, "snn_model_best.pth")
-            torch.save(model.state_dict(), best_path)
-            print(f"New best model saved (val_acc={best_val_acc:.4f}) -> {best_path}")
-
-    print("Training complete. Best val acc:", best_val_acc, "at epoch", best_epoch)
-    writer.close()
+        # save best model
+        if val_acc > best_acc:
+            best_acc = val_acc
+            torch.save(model.state_dict(), os.path.join(args.output_dir, "snn_model_best.pth"))
+            print(f"✅ Saved best model (val_acc={val_acc:.4f})")
 
 if __name__ == "__main__":
-    p = argparse.ArgumentParser()
-    p.add_argument("--batch_size", type=int, default=DEFAULTS["batch_size"])
-    p.add_argument("--epochs", type=int, default=DEFAULTS["epochs"])
-    p.add_argument("--lr", type=float, default=DEFAULTS["lr"])
-    p.add_argument("--max_items", type=int, default=DEFAULTS["max_items"])
-    p.add_argument("--val_fraction", type=float, default=DEFAULTS["val_fraction"])
-    p.add_argument("--output_dir", type=str, default=DEFAULTS["output_dir"])
-    p.add_argument("--seed", type=int, default=DEFAULTS["seed"])
-    args = p.parse_args()
-    main(args)
+    main()
