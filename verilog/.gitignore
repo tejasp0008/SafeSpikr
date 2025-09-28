@@ -1,1 +1,25 @@
-verilog/build/
+# Ignore data folder
+Data/
+data/
+
+# Ignore typical Python build artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+.env/
+.venv/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Logs & temp files
+*.log
+*.tmp
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db

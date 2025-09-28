@@ -1,8 +1,28 @@
+# Core scientific stack
 numpy>=1.24.0
 pandas>=1.5.0
+scipy>=1.10.0
+
+# Image & signal processing
 opencv-python>=4.7.0
 matplotlib>=3.7.0
 scikit-learn>=1.2.0
+
+# Deep learning
 torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
+
+# Spiking Neural Networks
+norse>=0.0.9
+
+# Utilities
 tqdm>=4.65.0
+
+# Optional: dashboard / APIs
+flask>=2.3.0
+fastapi>=0.95.0
+uvicorn>=0.22.0
+
+# TensorFlow only if needed for preprocessing scripts
 tensorflow-cpu==2.15.0

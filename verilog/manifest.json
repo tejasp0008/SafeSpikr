@@ -1,0 +1,103 @@
+{
+  "model_path": "C:\\Users\\TEJAS PAL\\Projects\\SafeSpikr\\snn_model_best.pth",
+  "q_format": {
+    "q_int": 1,
+    "q_frac": 15
+  },
+  "files": {
+    "weights::img_enc.conv.0.weight": {
+      "path": "weights\\weights_img_enc_conv_0_weight.txt",
+      "shape": [
+        16,
+        3,
+        3,
+        3
+      ],
+      "dtype": "int32_fixed"
+    },
+    "weights::img_enc.conv.0.bias": {
+      "path": "weights\\weights_img_enc_conv_0_bias.txt",
+      "shape": [
+        16
+      ],
+      "dtype": "int32_fixed"
+    },
+    "weights::img_enc.conv.3.weight": {
+      "path": "weights\\weights_img_enc_conv_3_weight.txt",
+      "shape": [
+        32,
+        16,
+        3,
+        3
+      ],
+      "dtype": "int32_fixed"
+    },
+    "weights::img_enc.conv.3.bias": {
+      "path": "weights\\weights_img_enc_conv_3_bias.txt",
+      "shape": [
+        32
+      ],
+      "dtype": "int32_fixed"
+    },
+    "weights::ppg_enc.fc.0.weight": {
+      "path": "weights\\weights_ppg_enc_fc_0_weight.txt",
+      "shape": [
+        64,
+        100
+      ],
+      "dtype": "int32_fixed"
+    },
+    "weights::ppg_enc.fc.0.bias": {
+      "path": "weights\\weights_ppg_enc_fc_0_bias.txt",
+      "shape": [
+        64
+      ],
+      "dtype": "int32_fixed"
+    },
+    "weights::fc.weight": {
+      "path": "weights\\weights_fc_weight.txt",
+      "shape": [
+        128,
+        96
+      ],
+      "dtype": "int32_fixed"
+    },
+    "weights::fc.bias": {
+      "path": "weights\\weights_fc_bias.txt",
+      "shape": [
+        128
+      ],
+      "dtype": "int32_fixed"
+    },
+    "weights::out_fc.weight": {
+      "path": "weights\\weights_out_fc_weight.txt",
+      "shape": [
+        3,
+        128
+      ],
+      "dtype": "int32_fixed"
+    },
+    "weights::out_fc.bias": {
+      "path": "weights\\weights_out_fc_bias.txt",
+      "shape": [
+        3
+      ],
+      "dtype": "int32_fixed"
+    },
+    "sample::0": {
+      "meta": "samples\\sample_0_meta.json"
+    },
+    "sample::1": {
+      "meta": "samples\\sample_1_meta.json"
+    },
+    "sample::2": {
+      "meta": "samples\\sample_2_meta.json"
+    },
+    "sample::3": {
+      "meta": "samples\\sample_3_meta.json"
+    },
+    "sample::4": {
+      "meta": "samples\\sample_4_meta.json"
+    }
+  }
+}

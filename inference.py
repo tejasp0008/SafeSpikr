@@ -10,7 +10,7 @@ ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(ROOT_DIR)
 
 # --- Import model and preprocessing ---
-from model.snn_model import SNNDriverStateClassifier
+from SafeSpikr.model.snn_model_statefarm import SNNDriverStateClassifier
 from utils.preprocess import load_dataset
 
 def create_torch_dataloader(batch_size=1):
