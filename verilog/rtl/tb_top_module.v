@@ -22,7 +22,7 @@ top_module uut (
 always #5 clk = ~clk;
 
 // Memory arrays
-reg signed [7:0] weight_mem [0:0];     // Only 1 weight used
+reg signed [7:0] weight_mem [0:551];     // Only 1 weight used
 reg signed [7:0] grad_mem [0:0];       // Only 1 gradient (can be dummy)
 
 // Simulation logic
@@ -31,7 +31,8 @@ initial begin
     $dumpvars(0, tb_top_module);
 
     // Load weight and gradient
-    $readmemh("../verilog/weights_classifier_fc.txt", weight_mem);  // or adjust path
+$readmemh("weights_classifier_fc.txt", weight_mem);
+    
     grad_mem[0] = 8'h00;  // You can replace this with $readmemh if using file
 
     // Initialize
