@@ -16,7 +16,7 @@ It brings together AI models, a React frontend, a Python/FastAPI backend, and FP
 - ✅ Real-time safety dashboard built with React  
 - ✅ REST API backend powered by FastAPI  
 - ✅ Verilog/FPGA integration for hardware acceleration  
-- ✅ Clean dataset structure with `.gitkeep` for folder preservation  
+- ✅ Cleanly structured for easy maintenance and future extensions.
 - ✅ Modular architecture for easy extension  
 
 ---
@@ -25,17 +25,19 @@ It brings together AI models, a React frontend, a Python/FastAPI backend, and FP
 
 ```
 SafeSpikr/
-├── frontend/         # React frontend dashboard
-├── backend/          # Python FastAPI backend
-├── model/            # AI/ML models and training scripts
-├── verilog/          # FPGA / hardware logic (Vivado support)
-├── Data/             # Image dataset (ignored in git, .gitkeep used)
-├── Data_/            # Alternative dataset storage
-├── data_unified/     # Unified dataset (only .gitkeep committed)
-├── ddd/              # Additional dataset (only .gitkeep committed)
-├── venv/             # Python virtual environment (ignored in git)
-├── .gitignore        # Ignore unnecessary files
-└── README.md         # Project documentation
+├── frontend/                         # React frontend dashboard
+├── backend/                          # Python FastAPI backend
+├── model/                            # AI/ML models and training scripts
+├── verilog/                          # FPGA / hardware logic (Vivado support)
+├── Data/                             # Image dataset (ignored in git, .gitkeep used)
+├── Data_/                            # Alternative dataset storage
+├── data_unified/                     # Unified dataset (only .gitkeep committed)
+├── ddd/                              # Additional dataset (only .gitkeep committed)
+├── venv/                             # Python virtual environment (ignored in git)
+├── user_identification_module        # For user identification and fetching weights
+├── sleep_detection...                # To utilize AWS rekognition for sleep rekognition
+├── .gitignore                        # Ignore unnecessary files
+└── README.md                         # Project documentation
 ```
 
 ---
