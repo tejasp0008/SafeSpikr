@@ -1,0 +1,175 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Futuristic Tata Motors Theme */
+    --background: 220 25% 97%;
+    --foreground: 220 60% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 60% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 60% 12%;
+
+    /* Enhanced Blue Palette */
+    --primary: 220 85% 18%;
+    --primary-foreground: 0 0% 100%;
+    --primary-glow: 200 90% 65%;
+    --primary-variant: 210 75% 25%;
+
+    /* Cyan/Teal Accents */
+    --secondary: 180 65% 88%;
+    --secondary-foreground: 220 60% 12%;
+
+    --muted: 220 25% 92%;
+    --muted-foreground: 220 30% 45%;
+
+    --accent: 200 90% 65%;
+    --accent-foreground: 220 85% 18%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 25% 88%;
+    --input: 220 25% 90%;
+    --ring: 200 90% 65%;
+
+    --radius: 0.875rem;
+
+    /* Advanced Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(220 85% 18%), hsl(200 90% 65%), hsl(180 85% 55%));
+    --gradient-secondary: linear-gradient(45deg, hsl(200 90% 65%), hsl(180 85% 55%));
+    --gradient-subtle: linear-gradient(180deg, hsl(220 25% 99%), hsl(220 25% 96%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.9), hsl(220 25% 98% / 0.8));
+    --gradient-glow: radial-gradient(circle at center, hsl(200 90% 65% / 0.3), transparent 70%);
+    --gradient-neural: linear-gradient(90deg, hsl(200 90% 65%), hsl(280 80% 70%), hsl(320 70% 60%));
+
+    /* Advanced Shadows & Effects */
+    --shadow-elegant: 0 20px 40px -12px hsl(220 85% 18% / 0.25);
+    --shadow-glow: 0 0 60px hsl(200 90% 65% / 0.4);
+    --shadow-neural: 0 8px 32px hsl(200 90% 65% / 0.3);
+    --shadow-card: 0 4px 20px hsl(220 85% 18% / 0.08);
+
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    /* Sidebar Enhanced */
+    --sidebar-background: 220 85% 15%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 200 90% 65%;
+    --sidebar-primary-foreground: 220 85% 15%;
+    --sidebar-accent: 220 80% 22%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 75% 25%;
+    --sidebar-ring: 200 90% 65%;
+  }
+
+  .dark {
+    --background: 220 85% 6%;
+    --foreground: 0 0% 100%;
+
+    --card: 220 85% 8%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 220 85% 8%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 200 90% 65%;
+    --primary-foreground: 220 85% 6%;
+    --primary-glow: 200 90% 75%;
+    --primary-variant: 210 80% 55%;
+
+    --secondary: 220 85% 12%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 85% 12%;
+    --muted-foreground: 220 30% 75%;
+
+    --accent: 200 90% 65%;
+    --accent-foreground: 220 85% 6%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 85% 18%;
+    --input: 220 85% 18%;
+    --ring: 200 90% 65%;
+
+    --gradient-primary: linear-gradient(135deg, hsl(220 85% 12%), hsl(200 90% 65%), hsl(180 85% 60%));
+    --gradient-secondary: linear-gradient(45deg, hsl(200 90% 65%), hsl(280 80% 70%));
+    --gradient-subtle: linear-gradient(180deg, hsl(220 85% 8%), hsl(220 85% 6%));
+    --gradient-card: linear-gradient(145deg, hsl(220 85% 10% / 0.9), hsl(220 85% 8% / 0.8));
+    --gradient-glow: radial-gradient(circle at center, hsl(200 90% 65% / 0.4), transparent 70%);
+    --gradient-neural: linear-gradient(90deg, hsl(200 90% 65%), hsl(280 80% 70%), hsl(320 70% 60%));
+
+    --shadow-elegant: 0 20px 40px -12px hsl(0 0% 0% / 0.6);
+    --shadow-glow: 0 0 60px hsl(200 90% 65% / 0.5);
+    --shadow-neural: 0 8px 32px hsl(200 90% 65% / 0.4);
+    --shadow-card: 0 4px 20px hsl(0 0% 0% / 0.3);
+
+    --sidebar-background: 220 85% 4%;
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-primary: 200 90% 65%;
+    --sidebar-primary-foreground: 220 85% 4%;
+    --sidebar-accent: 220 85% 10%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 220 85% 12%;
+    --sidebar-ring: 200 90% 65%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .futuristic-card {
+    @apply relative overflow-hidden rounded-2xl bg-gradient-card backdrop-blur-sm border border-white/10;
+    box-shadow: var(--shadow-card), inset 0 1px 0 hsl(0 0% 100% / 0.1);
+  }
+  
+  .neural-glow {
+    @apply relative;
+  }
+  
+  .neural-glow::before {
+    content: '';
+    @apply absolute inset-0 rounded-2xl opacity-60 blur-xl;
+    background: var(--gradient-glow);
+    z-index: -1;
+  }
+  
+  .pulse-glow {
+    @apply animate-pulse;
+    box-shadow: 0 0 20px hsl(var(--accent) / 0.5);
+  }
+  
+  .hover-float {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-glow;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-primary);
+  }
+  
+  .text-neural {
+    @apply bg-clip-text text-transparent;
+    background-image: var(--gradient-neural);
+  }
+}

@@ -24,7 +24,6 @@ from torch.utils.data import DataLoader
 from model.dataset_unified import UnifiedDataset
 from model.snn_model_statefarm import SNNDriverStateClassifier  # same model used in training
 
-
 LABELS = {0: "alert", 1: "drowsy", 2: "distracted"}
 
 
@@ -54,7 +53,7 @@ def export_weights(model, weights_dir, q_int=1, q_frac=15):
 
 
 def export_test_vectors(ds, model, test_dir, num_samples=5, q_int=1, q_frac=15, device="cpu"):
-    """Export a few sample image+ppg pairs + golden predictions"""
+    """Export a few sample image+ppg pairs + logits + golden reference"""
     test_dir = Path(test_dir)
     test_dir.mkdir(parents=True, exist_ok=True)
     dl = DataLoader(ds, batch_size=1, shuffle=False)
@@ -76,17 +75,27 @@ def export_test_vectors(ds, model, test_dir, num_samples=5, q_int=1, q_frac=15, 
             else:
                 logits = outputs
 
+            # float32 logits (before softmax)
+            logits_np = logits.cpu().numpy()[0]
+
+            # quantized logits
+            logits_q = quantize_tensor(logits, q_int=q_int, q_frac=q_frac).flatten()
+
+            # save logits file (quantized)
+            logits_file = test_dir / f"test_vector_logits_{idx}.txt"
+            np.savetxt(logits_file, logits_q.reshape(1, -1), fmt="%d")
+
+            # softmax probs (for CSV reference only)
             probs = torch.softmax(logits, dim=1).cpu().numpy()[0]
             pred = int(probs.argmax())
             true_label = int(label.item())
 
-            # quantize and save inputs
+            # quantize + save inputs
             img_q = quantize_tensor(img, q_int=q_int, q_frac=q_frac).flatten()
             ppg_q = quantize_tensor(ppg, q_int=q_int, q_frac=q_frac).flatten()
 
             img_file = test_dir / f"test_vector_img_{idx}.txt"
             ppg_file = test_dir / f"test_vector_ppg_{idx}.txt"
-
             np.savetxt(img_file, img_q, fmt="%d")
             np.savetxt(ppg_file, ppg_q, fmt="%d")
 
@@ -94,6 +103,7 @@ def export_test_vectors(ds, model, test_dir, num_samples=5, q_int=1, q_frac=15, 
                 "idx": idx,
                 "img_file": str(img_file),
                 "ppg_file": str(ppg_file),
+                "logits_file": str(logits_file),
                 "true_label": true_label,
                 "pred_label": pred
             })
@@ -104,6 +114,8 @@ def export_test_vectors(ds, model, test_dir, num_samples=5, q_int=1, q_frac=15, 
                 "true_label": LABELS[true_label],
                 "pred_label_idx": pred,
                 "pred_label": LABELS[pred],
+                "logits_float": logits_np.tolist(),
+                "logits_quant": logits_q.tolist(),
                 "prob0": float(probs[0]),
                 "prob1": float(probs[1]),
                 "prob2": float(probs[2]),
@@ -131,10 +143,10 @@ def main():
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    # load dataset
+    # dataset
     ds = UnifiedDataset(csv_path=args.csv_path, split=args.split, max_items=args.num_samples)
 
-    # load model
+    # model
     model = SNNDriverStateClassifier().to(device)
     state = torch.load(args.model_path, map_location=device)
     model.load_state_dict(state)
@@ -144,10 +156,8 @@ def main():
     weights_dir = out_dir / "weights"
     test_dir = out_dir / "test_vectors"
 
-    # export weights
+    # export
     weight_files = export_weights(model, weights_dir, q_int=args.q_int, q_frac=args.q_frac)
-
-    # export test vectors + golden reference
     vectors, golden_path = export_test_vectors(
         ds, model, test_dir,
         num_samples=args.num_samples,
@@ -156,7 +166,7 @@ def main():
         device=device
     )
 
-    # save manifest
+    # manifest
     manifest = {
         "model_path": args.model_path,
         "csv_path": args.csv_path,

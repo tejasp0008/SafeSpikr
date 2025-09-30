@@ -23,6 +23,7 @@
       "idx": 0,
       "img_file": "verilog\\test_vectors\\test_vector_img_0.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_0.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_0.txt",
       "true_label": 2,
       "pred_label": 2
     },
@@ -30,6 +31,7 @@
       "idx": 1,
       "img_file": "verilog\\test_vectors\\test_vector_img_1.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_1.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_1.txt",
       "true_label": 1,
       "pred_label": 1
     },
@@ -37,6 +39,7 @@
       "idx": 2,
       "img_file": "verilog\\test_vectors\\test_vector_img_2.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_2.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_2.txt",
       "true_label": 1,
       "pred_label": 1
     },
@@ -44,6 +47,7 @@
       "idx": 3,
       "img_file": "verilog\\test_vectors\\test_vector_img_3.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_3.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_3.txt",
       "true_label": 1,
       "pred_label": 1
     },
@@ -51,6 +55,7 @@
       "idx": 4,
       "img_file": "verilog\\test_vectors\\test_vector_img_4.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_4.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_4.txt",
       "true_label": 0,
       "pred_label": 0
     },
@@ -58,6 +63,7 @@
       "idx": 5,
       "img_file": "verilog\\test_vectors\\test_vector_img_5.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_5.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_5.txt",
       "true_label": 0,
       "pred_label": 0
     },
@@ -65,6 +71,7 @@
       "idx": 6,
       "img_file": "verilog\\test_vectors\\test_vector_img_6.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_6.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_6.txt",
       "true_label": 1,
       "pred_label": 1
     },
@@ -72,6 +79,7 @@
       "idx": 7,
       "img_file": "verilog\\test_vectors\\test_vector_img_7.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_7.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_7.txt",
       "true_label": 1,
       "pred_label": 1
     },
@@ -79,6 +87,7 @@
       "idx": 8,
       "img_file": "verilog\\test_vectors\\test_vector_img_8.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_8.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_8.txt",
       "true_label": 2,
       "pred_label": 0
     },
@@ -86,6 +95,7 @@
       "idx": 9,
       "img_file": "verilog\\test_vectors\\test_vector_img_9.txt",
       "ppg_file": "verilog\\test_vectors\\test_vector_ppg_9.txt",
+      "logits_file": "verilog\\test_vectors\\test_vector_logits_9.txt",
       "true_label": 2,
       "pred_label": 2
     }
